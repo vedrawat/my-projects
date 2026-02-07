@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.P. Prajapati Bricks | Premium Construction Materials</title>
+    
+    <!-- Tailwind CSS for Layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+     <link rel="stylesheet" href="style.css">
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #e65100; /* Brick Orange */
+            --accent: #ffd600;  /* Construction Yellow */
+            --dark: #0f0f0f;
+            --darker: #050505;
+            --surface: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--darker);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand-font {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        /* Hero Overlay */
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(5,5,5,0.3) 0%, rgba(5,5,5,0.9) 100%);
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+        }
+
+        .glass-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(230, 81, 0, 0.2);
+        }
+
+        /* Button Glow */
+        .btn-glow {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--primary);
+            z-index: -1;
+            transition: transform 0.3s ease;
+            transform: scaleX(0);
+            transform-origin: right;
+        }
+
+        .btn-glow:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(230, 81, 0, 0.6);
+            border-color: transparent;
+            color: white !important;
+        }
+
+        /* Input Styling */
+        .custom-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-input:focus {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            box-shadow: 0 0 15px rgba(230, 81, 0, 0.2);
+        }
+        
+        .section-title span {
+            color: var(--primary);
+        }
+
+        #mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.77,0.2,0.05,1.0);
+        }
+
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 px-6 py-4" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass-card rounded-full px-6 py-3">
+            <div class="text-xl md:text-2xl font-bold tracking-tighter brand-font flex items-center gap-2">
+                <i class="fas fa-cubes text-orange-600"></i>
+                A.P PRAJAPATI<span class="text-orange-600">BRICKS</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-semibold tracking-widest uppercase">
+                 <a href="#home" class="hover:text-orange-500 transition-colors">Home</a>
+                <a href="#products" class="hover:text-orange-500 transition-colors">Products</a>
+                <a href="#contact" class="hover:text-orange-500 transition-colors">Contact</a>
+                <a href="#team" class="hover:text-orange-500 transition-colors">Team</a>
+            </div>
+            <a href="#contact" class="hidden md:inline-block px-6 py-2 border border-orange-600 text-orange-600 rounded-full font-bold uppercase text-xs tracking-wider btn-glow transition-all">
+                Get Quote
+            </a>
+            <!-- Mobile Menu Button -->
+            <button id="menu-toggle" class="md:hidden text-2xl text-orange-600 focus:outline-none"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Mobile Sidebar -->
+    <div id="mobile-menu" class="fixed top-0 right-0 w-64 h-full bg-neutral-950 z-[60] p-8 flex flex-col gap-8 shadow-2xl border-l border-white/5">
+        <button id="menu-close" class="self-end text-3xl text-orange-600"><i class="fas fa-times"></i></button>
+        <div class="flex flex-col gap-6 text-xl font-bold brand-font">
+            <a href="#home" class="mobile-link hover:text-orange-600">Home</a>
+            <a href="#products" class="mobile-link hover:text-orange-600">Products</a>
+            <a href="#contact" class="mobile-link hover:text-orange-600">Contact</a>
+             <a href="#team" class="mobile-link hover:text-orange-600">Team</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header id="home" class="relative w-full h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="https://images.unsplash.com/photo-1592853598064-5a7fa150592c?w=1600&auto=format&fit=crop&q=80" 
+                alt="Bricks Background" 
+                class="w-full h-full object-cover opacity-40"
+            >
+            <div class="hero-overlay absolute inset-0"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-24">
+            <div class="overflow-hidden mb-4">
+                <h2 class="hero-sub text-orange-500 font-bold tracking-[0.3em] uppercase text-sm md:text-lg opacity-0">
+                    Trusted Since 1985 • Katni, MP
+                </h2>
+            </div>
+            <div class="overflow-hidden mb-6">
+                <h1 class="hero-title text-5xl md:text-8xl font-bold leading-tight uppercase opacity-0">
+                    Build Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500">Dreams</span><br>
+                    With Premium <span class="text-white">Bricks</span>
+                </h1>
+            </div>
+            <p class="hero-text text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 opacity-0">
+                A.P. Prajapati Bricks supplies high-quality Red Bricks, Cement, River Sand, and Crushed Stone. The foundation of a strong home starts here.
+            </p>
+            <div class="hero-btn opacity-0">
+                <a href="#products" class="inline-block px-10 py-4 bg-orange-600 text-white font-bold uppercase tracking-widest text-sm md:text-base rounded-xl hover:bg-orange-700 transition-all shadow-[0_0_20px_rgba(234,88,12,0.5)] hover:shadow-[0_0_40px_rgba(234,88,12,0.8)]">
+                    Explore Products
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Strip -->
+    <div class="bg-neutral-900 border-b border-white/5 py-8 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="feature-item opacity-0 translate-y-10">
+                <i class="fas fa-truck-fast text-3xl text-orange-500 mb-3"></i>
+                <h3 class="font-bold text-lg">Fast Delivery</h3>
+            </div>
+            <div class="feature-item opacity-0 translate-y-10">
+                <i class="fas fa-certificate text-3xl text-orange-500 mb-3"></i>
+                <h3 class="font-bold text-lg">Premium Quality</h3>
+            </div>
+            <div class="feature-item opacity-0 translate-y-10">
+                <i class="fas fa-tag text-3xl text-orange-500 mb-3"></i>
+                <h3 class="font-bold text-lg">Best Pricing</h3>
+            </div>
+            <div class="feature-item opacity-0 translate-y-10">
+                <i class="fas fa-headset text-3xl text-orange-500 mb-3"></i>
+                <h3 class="font-bold text-lg">24/7 Support</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <section id="products" class="py-24 bg-black relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 section-header opacity-0">
+                <h2 class="section-title text-4xl md:text-6xl font-bold mb-4">Our <span class="text-orange-600">Materials</span></h2>
+                <div class="w-24 h-1 bg-orange-600 mx-auto"></div>
+                <p class="text-gray-400 mt-4 max-w-xl mx-auto">Top-grade construction materials sourced for durability and strength.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
+                <!-- Product Card 1: Bricks -->
+                <div class="product-card glass-card rounded-xl overflow-hidden group opacity-0 translate-y-12">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded z-10">BEST SELLER</div>
+                        <img src="batta.jpg" alt="Red Bricks" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Red Clay Bricks</h3>
+                        <p class="text-gray-400 text-sm mb-4">High strength, kiln-fired red bricks perfect for foundation and walls.</p>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">Price</p>
+                                <p class="text-xl font-bold text-orange-500">₹4,000 <span class="text-xs text-white">/ 1000 pcs</span></p>
+                            </div>
+                            <a href="#contact" class="w-10 h-10 rounded-full bg-white/10 hover:bg-orange-600 flex items-center justify-center transition-colors text-white">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2: Bricks -->
+                <div class="product-card glass-card rounded-xl overflow-hidden group opacity-0 translate-y-12">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded z-10">BEST SELLER</div>
+                        <img src="unnamed (1).jpg" alt="Cement" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Red Bricks</h3>
+                        <p class="text-gray-400 text-sm mb-4">The ideal bricks for your construction needs.</p>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">Price</p>
+                                <p class="text-xl font-bold text-orange-500">₹4000 <span class="text-xs text-white">/ 1000 pcs</span></p>
+                            </div>
+                            <a href="#contact" class="w-10 h-10 rounded-full bg-white/10 hover:bg-orange-600 flex items-center justify-center transition-colors text-white">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3: Crushed Stone -->
+                <div class="product-card glass-card rounded-xl overflow-hidden group opacity-0 translate-y-12">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded z-10">BEST SELLER</div>
+                        <img src="unnamed.jpg" alt="Crushed Stone" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Red Clay Bricks</h3>
+                        <p class="text-gray-400 text-sm mb-4">Premium bricks crafted for enduring beauty and structural integrity</p>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">Price</p>
+                                <p class="text-xl font-bold text-orange-500">₹4,000 <span class="text-xs text-white">/ 1000 pcs</span></p>
+                            </div>
+                            <a href="#contact" class="w-10 h-10 rounded-full bg-white/10 hover:bg-orange-600 flex items-center justify-center transition-colors text-white">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 4: Sand -->
+                <div class="product-card glass-card rounded-xl overflow-hidden group opacity-0 translate-y-12">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded z-10">BEST SELLER</div>
+                        <img src="bricks.jpg" alt="River Sand" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Bricks</h3>
+                        <p class="text-gray-400 text-sm mb-4">Clean, filtered river sand essential for plastering.</p>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">Price</p>
+                                <p class="text-xl font-bold text-orange-500">₹4,000 <span class="text-xs text-white">/ 1000 pcs</span></p>
+                            </div>
+                            <a href="#contact" class="w-10 h-10 rounded-full bg-white/10 hover:bg-orange-600 flex items-center justify-center transition-colors text-white">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                        <!-- Product Card 5: Bricks -->
+                <div class="product-card glass-card rounded-xl overflow-hidden group opacity-0 translate-y-12">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded z-10">BEST SELLER</div>
+                        <img src="iron.jpg" alt="Red Bricks" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Quality Iron</h3>
+                        <p class="text-gray-400 text-sm mb-4">The backbone of progress for your most critical projects.</p>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">Price</p>
+                                <p class="text-xl font-bold text-white-500">For best pricing contact us - <span class="text-xs text-white"></span></p>
+                            </div>
+                            <a href="#contact" class="w-10 h-10 rounded-full bg-white/10 hover:bg-orange-600 flex items-center justify-center transition-colors text-white">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                      <!-- Product Card 6: Bricks -->
+                <div class="product-card glass-card rounded-xl overflow-hidden group opacity-0 translate-y-12">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded z-10">BEST SELLER</div>
+                        <img src="stone.jpg" alt="Red Bricks" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Crushed Stone</h3>
+                        <p class="text-gray-400 text-sm mb-4">Durable aggregate for concrete mix and road base.</p>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 ">Contact Us</p>
+                                <p class="text-xl font-bold text-orange-500">+91 9907320398 <span class="text-xs text-white"></span></p>
+                            </div>
+                            <a href="#contact" class="w-10 h-10 rounded-full bg-white/10 hover:bg-orange-600 flex items-center justify-center transition-colors text-white">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                      <!-- Product Card 7: Bricks -->
+                <div class="product-card glass-card rounded-xl overflow-hidden group opacity-0 translate-y-12">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded z-10">BEST SELLER</div>
+                        <img src="cement.jpg" alt="Red Bricks" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Premium Cement</h3>
+                        <p class="text-gray-400 text-sm mb-4">Grade A Portland cement for superior bonding strength.</p>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 ">Contact Us</p>
+                                <p class="text-xl font-bold text-orange-500">+91 9907320398 <span class="text-xs text-white"></span></p>
+                            </div>
+                            <a href="#contact" class="w-10 h-10 rounded-full bg-white/10 hover:bg-orange-600 flex items-center justify-center transition-colors text-white">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 8: Bricks -->
+                <div class="product-card glass-card rounded-xl overflow-hidden group opacity-0 translate-y-12">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute top-4 right-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded z-10">BEST SELLER</div>
+                        <img src="sand.jpg" alt="Red Bricks" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">River Sand</h3>
+                        <p class="text-gray-400 text-sm mb-4">Clean, filtered river sand essential for plastering.</p>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 ">Contact Us</p>
+                                <p class="text-xl font-bold text-orange-500">+91 9907320398 <span class="text-xs text-white"></span></p>
+                            </div>
+                            <a href="#contact" class="w-10 h-10 rounded-full bg-white/10 hover:bg-orange-600 flex items-center justify-center transition-colors text-white">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted Partners / Project Leads (Special Mention) -->
+    <section class="py-20 bg-neutral-950" id="team">
+        <div class="max-w-7xl mx-auto px-4">
+            <h3 class="text-center text-orange-500 tracking-[0.3em] font-bold uppercase text-sm mb-12">Our Dedicated Team Leads</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6 glass-card rounded-2xl border-white/5">
+                    <div class="w-20 h-20 bg-orange-600/20 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-500">
+                        <!-- <i class="fas fa-hard-hat text-3xl"></i> -->
+                         <img class="rounded-full h-full w-full" src="baijnath1.jpg" alt="">
+                    </div>
+                    <h4 class="text-xl font-bold">Baijnath(Bheju) Prajapati</h4>
+                    <p class="text-gray-400 text-sm">Site Operations Manager</p>
+                </div>
+                <div class="p-6 glass-card rounded-2xl border-white/5">
+                    <div class="w-20 h-20 bg-orange-600/20 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-500">
+                        <!-- <i class="fas fa-truck-pickup text-3xl"></i> -->
+                         <img class="rounded-full h-full" src="abhay.jpg" alt="">
+                    </div>
+                    <h4 class="text-xl font-bold">Abhay Prajapati</h4>
+                    <p class="text-gray-400 text-sm">Logistics & Supply Head</p>
+                </div>
+                <div class="p-6 glass-card rounded-2xl border-white/5">
+                    <div class="w-20 h-20 bg-orange-600/20 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-500">
+                        <!-- <i class="fas fa-calculator text-3xl"></i> -->
+                        <img class="rounded-full h-full w-full" src="rohit.jpg" alt="">
+                    </div>
+                    <h4 class="text-xl font-bold">Rohit Pathak</h4>
+                    <p class="text-gray-400 text-sm">River sand, crushed stone, cement seller</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+     <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-content">
+                <div class="about-text">
+                    <span class="section-tag">Our Story</span>
+                    <h2>Building Excellence Since 1985</h2>
+                    <div class="divider"></div>
+                    <p>Welcome to 
+                        PrajapatiBricks, where quality meets craftsmanship. For over two decades, we've been at the forefront of the construction materials industry, providing premium bricks that build dreams into reality.</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">30+</span>
+                            <span class="stat-text">Years Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5000+</span>
+                            <span class="stat-text">Projects Completed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">98%</span>
+                            <span class="stat-text">Client Satisfaction</span>
+                        </div>
+                    </div>
+                    
+                    <div class="features-grid">
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Premium Quality</h4>
+                                <p>We source only the finest materials for durable, long-lasting results.</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Fast Delivery</h4>
+                                <p>On-time delivery to keep your project on schedule.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="cta-button">Get a Free Quote</a>
+                </div>
+                
+                <div class="about-images">
+                    <div class="main-image">
+                        <!-- <img src="https://media.istockphoto.com/id/622800884/photo/close-up-of-industrial-bricklayer-installing-bricks-on-construction-site.webp?a=1&b=1&s=612x612&w=0&k=20&c=80MaM5Kh0W7N-81IXiKFW1SpHJFTD2UQHNOE5hKuqeI="> -->
+                         <img src="unnamed (1).jpg" alt="">
+                    </div>
+                    <div class="secondary-image">
+                        <!-- <img src="https://media.istockphoto.com/id/622800884/photo/close-up-of-industrial-bricklayer-installing-bricks-on-construction-site.webp?a=1&b=1&s=612x612&w=0&k=20&c=80MaM5Kh0W7N-81IXiKFW1SpHJFTD2UQHNOE5hKuqeI="> -->
+
+                        <img src="unnamed.jpg" alt="">
+                    </div>
+                    <!-- <div class="experience-badge">
+                        <span class="years">20+</span>
+                        <span class="text">Years of Excellence</span>
+                    </div> -->
+                </div>
+            </div>
+            
+            <!-- <div class="trusted-by">
+                <h3>Trusted By Leading Companies</h3>
+                <div class="brands">
+                    <div class="brand-logo">ConstructCo</div>
+                    <div class="brand-logo">BuildRight</div>
+                    <div class="brand-logo">EliteHomes</div>
+                    <div class="brand-logo">ModernBuild</div>
+                </div>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative overflow-hidden bg-black">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-orange-600/5 -skew-x-12 transform origin-bottom-right"></div>
+
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Contact Info -->
+                <div class="contact-info opacity-0">
+                    <h2 class="text-5xl md:text-7xl font-bold mb-6">Let's Build <br><span class="text-orange-600">Together</span></h2>
+                    <p class="text-gray-400 text-lg mb-10">Ready to start your project? Fill out the form or contact us directly for bulk orders and quotes.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-orange-500 text-xl border border-white/10">
+                                <i class="fas fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Visit Us</h4>
+                                <p class="text-gray-400">A.P. Prajapati Bricks, P.W.D Colony, Madhav Nagar Katni (M.P)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-orange-500 text-xl border border-white/10">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Call Us</h4>
+                                <p class="text-gray-400">+91 9179943408, 6266343014</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-orange-500 text-xl border border-white/10">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Email Us</h4>
+                                <p class="text-gray-400">abhayabhayprajapati327@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-orange-500 text-xl border border-white/10">
+                                <!-- <i class="fas fa-envelope"></i> -->
+                                 <i class="fab fa-instagram"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Messages us on Instagram</h4>
+                                <p class="text-gray-400">_05mr.abhay</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Socials -->
+                    <div class="flex gap-4 mt-10">
+                        <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-orange-600 hover:border-orange-600 transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-orange-600 hover:border-orange-600 transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-orange-600 hover:border-orange-600 transition-all"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="glass-card p-8 md:p-10 rounded-2xl contact-form-container opacity-0 translate-x-10" >
+                    <h3 class="text-2xl font-bold mb-6">Request a Quote</h3>
+                    <form class="space-y-4" action="https://formsubmit.co/el/nodehe" method="POST" onsubmit="event.preventDefault(); alert('Thank you! We will contact you soon.');">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Your Name</label>
+                                <input type="text" name="name" class="w-full p-3 rounded-lg custom-input" placeholder="John Doe" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Contact Number</label>
+                                <input type="tel" name="Number" class="w-full p-3 rounded-lg custom-input" placeholder="+91 999..." required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Email Address</label>
+                            <input type="email" name="email" class="w-full p-3 rounded-lg custom-input" placeholder="john@example.com">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Product of Interest</label>
+                            <select class="w-full p-3 rounded-lg custom-input bg-neutral-900" name="product">
+                                <option>Red Clay Bricks</option>
+                                <option>Cement</option>
+                                <option>Crushed Stone</option>
+                                <option>River Sand</option>
+                                <option>Multiple Products</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Estimated Quantity</label>
+                            <input type="text" name="quantity" class="w-full p-3 rounded-lg custom-input" placeholder=" 2000 bricks per tractor, 5 packs of cement, 1 trolley river sand or crused stone  ">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Delivery Address</label>
+                            <textarea name="adddress" class="w-full p-3 rounded-lg custom-input h-24" placeholder="Your site address..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 bg-orange-600 text-white font-bold uppercase tracking-widest rounded-lg hover:bg-orange-700 transition-all shadow-lg hover:shadow-orange-600/40">
+                            Send Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- <footer class="bg-black pt-20 pb-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="text-3xl font-bold tracking-tighter brand-font flex justify-center items-center gap-2 mb-8">
+                <i class="fas fa-cubes text-orange-600"></i>
+                A.P. PRAJAPATI<span class="text-orange-600">BRICKS</span>
+            </div>
+            <p class="text-gray-500 mb-8 max-w-xl mx-auto">Providing the strongest foundations for the people of Katni and beyond since 1985. Quality you can build on.</p>
+            <div class="flex justify-center gap-8 text-sm font-semibold uppercase tracking-widest text-gray-400 mb-12">
+                <a href="#home" class="hover:text-orange-600">Home</a>
+                <a href="#products" class="hover:text-orange-600">Products</a>
+                <a href="#contact" class="hover:text-orange-600">Contact</a>
+            </div>
+            <div class="pt-8 border-t border-white/5 text-gray-600 text-xs">
+                © 2024 A.P. Prajapati Bricks. All rights reserved. Designed with precision.
+            </div>
+        </div>
+    </footer> -->
+
+        <footer class="bg-black pt-20 pb-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Column -->
+                <div>
+                    <div class="text-2xl font-bold tracking-tighter brand-font flex items-center gap-2 mb-6">
+                        <i class="fas fa-cubes text-orange-600"></i>
+                        A.P <span class="text-orange-600">BRICKS</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Building the foundation of your dreams with premium quality construction materials since 2005. Trusted by top developers in Katni.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white uppercase tracking-wider">Quick Links</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="#home" class="hover:text-orange-500 transition-colors">Home</a></li>
+                        <li><a href="#products" class="hover:text-orange-500 transition-colors">All Products</a></li>
+                        <li><a href="#testimonials" class="hover:text-orange-500 transition-colors">Client Reviews</a></li>
+                        <li><a href="#contact" class="hover:text-orange-500 transition-colors">Request Quote</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Materials -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white uppercase tracking-wider">Materials</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="#" class="hover:text-orange-500 transition-colors">Red Clay Bricks</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors">Fly Ash Bricks</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors">Ultratech Cement</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors">River Sand</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors">Crushed Stone</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white uppercase tracking-wider">Stay Updated</h4>
+                    <p class="text-gray-400 mb-4">Subscribe for latest price updates and construction tips.</p>
+                    <form class="flex flex-col gap-3">
+                        <input type="email" placeholder="Your Email Address" class="bg-white/5 border border-white/10 p-3 rounded text-white focus:border-orange-600 focus:outline-none transition-colors">
+                        <button class="bg-orange-600 text-white font-bold py-3 rounded hover:bg-orange-700 transition-colors uppercase tracking-wider text-sm">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 text-center text-gray-600 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; 2025 Prajapati Bricks, Katni. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // GSAP Initialization
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.onload = () => {
+            // Navbar Scroll Effect
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    nav.classList.add('py-2');
+                } else {
+                    nav.classList.remove('py-2');
+                }
+            });
+
+            // Mobile Menu Logic
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            menuToggle.onclick = () => mobileMenu.classList.add('open');
+            menuClose.onclick = () => mobileMenu.classList.remove('open');
+            mobileLinks.forEach(link => {
+                link.onclick = () => mobileMenu.classList.remove('open');
+            });
+
+            // Hero Animations
+            const tl = gsap.timeline();
+            tl.to('.hero-sub', { opacity: 1, y: 0, duration: 0.8, delay: 0.5 })
+              .to('.hero-title', { opacity: 1, y: 0, duration: 1, ease: "power4.out" }, "-=0.4")
+              .to('.hero-text', { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
+              .to('.hero-btn', { opacity: 1, y: 0, duration: 0.8 }, "-=0.6");
+
+            // Scroll Animations
+            gsap.to('.feature-item', {
+                opacity: 1,
+                y: 0,
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: '.feature-item',
+                    start: 'top 85%'
+                }
+            });
+
+            gsap.to('.section-header', {
+                opacity: 1,
+                scrollTrigger: {
+                    trigger: '.section-header',
+                    start: 'top 80%'
+                }
+            });
+
+            gsap.to('.product-card', {
+                opacity: 1,
+                y: 0,
+                stagger: 0.15,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: '.product-card',
+                    start: 'top 80%'
+                }
+            });
+
+            gsap.to('.contact-info', {
+                opacity: 1,
+                x: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '#contact',
+                    start: 'top 70%'
+                }
+            });
+
+            gsap.to('.contact-form-container', {
+                opacity: 1,
+                x: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '#contact',
+                    start: 'top 70%'
+                }
+            });
+        };
+    </script>
+</body>
+</html>
